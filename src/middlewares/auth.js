@@ -19,36 +19,46 @@ async function authentication(req, res, next) {
 }
 
 async function authorization(req, res, next) {
-    const userIdP = req.payload.user_Id
-    const userId = req.body.user_Id
-    if (!userId) {
-        return res.status(400).send({ msg: "required userId" })
+    try {
+        const userIdP = req.payload.user_Id
+        const userId = req.body.user_Id
+        if (!userId) {
+            return res.status(400).send({ msg: "required userId" })
+        }
+        if (!objectId.isValid(userId)) {
+            return res.status(400).send({ msg: `invalid objectId ${userId}` })
+        }
+        if (userId == userIdP) {
+            next()
+        }
+        else {
+            return res.status(403).send({ msg: "not authorized" })
+        }
     }
-    if (!objectId.isValid(userId)) {
-        return res.status(400).send({ msg: `invalid objectId ${userId}` })
-    }
-    if (userId == userIdP) {
-        next()
-    }
-    else {
-        return res.status(403).send({ msg: "not authorized" })
+    catch (err) {
+        return res.status(500).send({ msg: err.message })
     }
 }
 
 async function authorization1(req, res, next) {
-    const userIdP = req.payload.user_Id
-    const userId = req.query.user_Id
-    if (!userId) {
-        return res.status(400).send({ msg: "required userId" })
+    try {
+        const userIdP = req.payload.user_Id
+        const userId = req.query.user_Id
+        if (!userId) {
+            return res.status(400).send({ msg: "required userId" })
+        }
+        if (!objectId.isValid(userId)) {
+            return res.status(400).send({ msg: `invalid objectId ${userId}` })
+        }
+        if (userId == userIdP) {
+            next()
+        }
+        else {
+            return res.status(403).send({ msg: "not authorized" })
+        }
     }
-    if (!objectId.isValid(userId)) {
-        return res.status(400).send({ msg: `invalid objectId ${userId}` })
-    }
-    if (userId == userIdP) {
-        next()
-    }
-    else {
-        return res.status(403).send({ msg: "not authorized" })
+    catch (err) {
+        return res.status(500).send({ msg: err.message })
     }
 }
 

@@ -55,6 +55,7 @@ async function createUser(req, res) {
 
 async function login(req, res) {
     try {
+        res.header("Access-Control-Allow-Origin", "*");
         const credentials = req.body
         const user = await userModel.findOne({ phone: credentials.phone })
         if (!user) {

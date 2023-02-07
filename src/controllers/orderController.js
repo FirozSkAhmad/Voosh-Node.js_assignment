@@ -37,6 +37,7 @@ async function addOrder(req, res) {
 
 async function getOrder(req, res) {
     try {
+        res.header("Access-Control-Allow-Origin", "*");
         const data = req.query
         const getOrder = await orderModel.find(data)
         return res.status(200).send(getOrder)
